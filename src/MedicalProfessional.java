@@ -11,6 +11,12 @@ public class MedicalProfessional {
         this.specialization = specialization;
     }
 
+    public void getInfo(){
+        System.out.println(
+                "Id: " + id + ",\nName: " + name + ",\nAge:" + age + ",\nspecialization: " +specialization + "\n"
+        );
+    }
+
     public int getID(){
         return id;
     }

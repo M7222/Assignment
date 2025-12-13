@@ -9,6 +9,11 @@ public class Patient{
         this.age = age;
     }
 
+    public void getInfo(){
+        System.out.println(
+                "Name: " + name + "\n Age:" + age + "\n id: " + id + "\n"
+        );
+    }
     public int getAge() {
         return age;
     }
@@ -30,6 +35,8 @@ public class Patient{
     }
 
     public void information(){
-        System.out.println("This patients name: " + name + ", age of this patient: " + age + ", id of this patient: " + id);
+        System.out.println("This patients name: " + name + ",\nage of this patient: " + age + ",\nid of this patient: " + id);
     }
+
+
 }

@@ -56,4 +56,9 @@ public class Hospital {
             System.out.println("Departments: " + Departments[i] + "\n");
         }
     }
+
+    public void getInfo(){
+        System.out.println("ID: " + id + ",\nName: " + Name + ",\nAddress: " + Address + ",\nHeadDoctor: " + HeadDoctor + "\n");
+        HositalDepartments();
+    }
 }
