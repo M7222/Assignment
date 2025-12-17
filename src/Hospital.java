@@ -57,7 +57,7 @@ public class Hospital {
         }
     }
 
-    public void getInfo(){
+    public void getInf(){
         System.out.println("ID: " + id + ",\nName: " + Name + ",\nAddress: " + Address + ",\nHeadDoctor: " + HeadDoctor + "\n");
         HositalDepartments();
     }
