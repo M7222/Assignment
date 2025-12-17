@@ -10,12 +10,17 @@ public class Patient{
     }
 
     public void getInfo(){
-        System.out.println(
-                "Name: " + name + "\n Age:" + age + "\n id: " + id + "\n"
-        );
+        if (age < 18) {
+            System.out.println(
+                    "Name: " + name + "\n Age:" + age + "\n id: " + id + "\n"
+            );
+        }
     }
     public int getAge() {
-        return age;
+        if(age < 18) {
+            return age;
+        }
+        return 0;
     }
     public String getName() {
         return name;

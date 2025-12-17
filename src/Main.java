@@ -20,8 +20,8 @@ public class Main {
         System.out.println("\n");
 
         System.out.println("--Hospital--\n");
-        hospital1.getInfo();
-        hospital2.getInfo();
+        hospital1.getInf0();
+        hospital2.getInf0();
         System.out.println("\n");
     }
 }
