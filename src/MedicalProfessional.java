@@ -47,4 +47,5 @@ public class MedicalProfessional {
     public int hashCode() {
         return Objects.hash(id, name, age, specialization);
     }
+    
 }
