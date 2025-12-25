@@ -1,64 +1,59 @@
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Hospital {
     private int id;
-    private String Name;
-    private String Address;
-    private String HeadDoctor;
-    private String[] Departments;
+    private String name;
+    private String address;
+    private String headDoctor;
+    private String[] departments;
 
-    public Hospital(int id, String Address, String HeadDoctor, String[] Departments, String Name){
+    public Hospital(int id, String address, String headDoctor, String[] departments, String name){
         this.id = id;
-        this.Name = Name;
-        this.Address = Address;
-        this.HeadDoctor = HeadDoctor;
-        this.Departments = Departments;
+        this.name = name;
+        this.address = address;
+        this.headDoctor = headDoctor;
+        this.departments = departments;
     }
 
-    public int getId(){
-        return id;
-    }
-    public String getName(){
-        return Name;
-    }
-    public String getAddress(){
-        return Address;
-    }
-    public String getHeadDoctor(){
-        return HeadDoctor;
-    }
-    public String[] getDepartments(){
-        return Departments;
+    // --- GETTERS ---
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public String getAddress() { return address; }
+    public String getHeadDoctor() { return headDoctor; }
+    public String[] getDepartments() { return departments; }
+
+    // --- SETTERS ---
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setAddress(String address) { this.address = address; }
+    public void setHeadDoctor(String headDoctor) { this.headDoctor = headDoctor; }
+    public void setDepartments(String[] departments) { this.departments = departments; }
+
+    // --- toString ---
+    @Override
+    public String toString() {
+        return "Hospital{id=" + id + ", name='" + name + "', address='" + address +
+                "', headDoctor='" + headDoctor + "', departments=" + Arrays.toString(departments) + "}";
     }
 
-    public void setId(int id){
-        this.id = id;
-    }
-    public void setName(String Name){
-        this.Name =  Name;
-    }
-    public void setAddress(String Address){
-        this.Address = Address;
-    }
-    public void setHeadDoctor(String HeadDoctor){
-        this.HeadDoctor = HeadDoctor;
-    }
-    public void setDepartments(String[] Departments){
-        this.Departments = Departments;
+    // --- equals & hashCode ---
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Hospital)) return false;
+        Hospital h = (Hospital) o;
+        return id == h.id &&
+                Objects.equals(name, h.name) &&
+                Objects.equals(address, h.address) &&
+                Objects.equals(headDoctor, h.headDoctor) &&
+                Arrays.equals(departments, h.departments);
     }
 
-    public void HospitalInformation(){
-        System.out.println("Name of hospital: " + Name + ", \n Address of Hospital: " + Address +"\n");
-    }
-    public void HospitalHeadDoctor(){
-        System.out.println("Head Doctor of hospital: " + HeadDoctor + "\n");
-    }
-    public void HositalDepartments(){
-        for (int i = 0; i < Departments.length; i++){
-            System.out.println("Departments: " + Departments[i] + "\n");
-        }
-    }
-
-    public void getInf0(){
-        System.out.println("ID: " + id + ",\nName: " + Name + ",\nAddress: " + Address + ",\nHeadDoctor: " + HeadDoctor + "\n");
-        HositalDepartments();
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(id, name, address, headDoctor);
+        result = 31 * result + Arrays.hashCode(departments);
+        return result;
     }
 }

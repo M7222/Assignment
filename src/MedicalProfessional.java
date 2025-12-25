@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class MedicalProfessional {
     private int id;
     private String name;
@@ -11,42 +13,38 @@ public class MedicalProfessional {
         this.specialization = specialization;
     }
 
-    public void getInfo(){
-        System.out.println(
-                "Id: " + id + ",\nName: " + name + ",\nAge:" + age + ",\nspecialization: " +specialization + "\n"
-        );
+    // --- GETTERS ---
+    public int getId() { return id; }
+    public String getName() { return name; }
+    public int getAge() { return age; }
+    public String getSpecialization() { return specialization; }
+
+    // --- SETTERS ---
+    public void setId(int id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setAge(int age) { this.age = age; }
+    public void setSpecialization(String specialization) { this.specialization = specialization; }
+
+    // --- toString ---
+    @Override
+    public String toString() {
+        return "Doctor{id=" + id + ", name='" + name + "', age=" + age + ", specialization='" + specialization + "'}";
     }
 
-    public int getID(){
-        return id;
-    }
-    public String getName(){
-        return name;
-    }
-    public int getAge(){
-        return age;
-    }
-    public String getSpecialization(){
-        return specialization;
-    }
-
-    public void setId(int id){
-        this.id = id;
-    }
-    public void setName(String name){
-        this.name = name;
-    }
-    public void setAge(int age){
-        this.age = age;
-    }
-    public void setSpecialization(String specialization){
-        this.specialization = specialization;
+    // --- equals & hashCode ---
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MedicalProfessional)) return false;
+        MedicalProfessional doc = (MedicalProfessional) o;
+        return id == doc.id &&
+                age == doc.age &&
+                Objects.equals(name, doc.name) &&
+                Objects.equals(specialization, doc.specialization);
     }
 
-    public void ProfessorInformation(){
-        System.out.println("Professor name: " + name + ", \n age of professor is:" + age );
-    }
-    public void ProfessorSpecialization(){
-        System.out.println("Professor specalization:" + specialization);
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, age, specialization);
     }
 }
