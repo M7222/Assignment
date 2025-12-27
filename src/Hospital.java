@@ -16,28 +16,24 @@ public class Hospital {
         this.departments = departments;
     }
 
-    // --- GETTERS ---
     public int getId() { return id; }
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getHeadDoctor() { return headDoctor; }
     public String[] getDepartments() { return departments; }
 
-    // --- SETTERS ---
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
     public void setHeadDoctor(String headDoctor) { this.headDoctor = headDoctor; }
     public void setDepartments(String[] departments) { this.departments = departments; }
 
-    // --- toString ---
     @Override
     public String toString() {
         return "Hospital{id=" + id + ", name='" + name + "', address='" + address +
                 "', headDoctor='" + headDoctor + "', departments=" + Arrays.toString(departments) + "}";
     }
 
-    // --- equals & hashCode ---
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

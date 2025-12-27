@@ -13,25 +13,21 @@ public class Patient {
         this.age = age;
     }
 
-    // --- GETTERS ---
     public int getId() { return id; }
     public String getName() { return name; }
     public String getSurname() { return surname; }
     public int getAge() { return age; }
 
-    // --- SETTERS ---
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setSurname(String surname) { this.surname = surname; }
     public void setAge(int age) { this.age = age; }
 
-    // --- toString ---
     @Override
     public String toString() {
         return "Patient{id=" + id + ", name='" + name + " " + surname + "', age=" + age + "}";
     }
 
-    // --- equals & hashCode ---
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -5,17 +5,14 @@ public class Data_pool {
     private ArrayList<MedicalProfessional> doctors = new ArrayList<>();
     private ArrayList<Hospital> hospitals = new ArrayList<>();
 
-    // --- ADD ---
     public void addPatient(Patient p) { patients.add(p); }
     public void addDoctor(MedicalProfessional d) { doctors.add(d); }
     public void addHospital(Hospital h) { hospitals.add(h); }
 
-    // --- GET ---
     public ArrayList<Patient> getPatients() { return patients; }
     public ArrayList<MedicalProfessional> getDoctors() { return doctors; }
     public ArrayList<Hospital> getHospitals() { return hospitals; }
 
-    // --- Фильтры с обычными циклами ---
     public ArrayList<Patient> getMinorPatients() {
         ArrayList<Patient> minors = new ArrayList<>();
         for (int i = 0; i < patients.size(); i++) {

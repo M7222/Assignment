@@ -13,25 +13,21 @@ public class MedicalProfessional {
         this.specialization = specialization;
     }
 
-    // --- GETTERS ---
     public int getId() { return id; }
     public String getName() { return name; }
     public int getAge() { return age; }
     public String getSpecialization() { return specialization; }
 
-    // --- SETTERS ---
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setAge(int age) { this.age = age; }
     public void setSpecialization(String specialization) { this.specialization = specialization; }
 
-    // --- toString ---
     @Override
     public String toString() {
         return "Doctor{id=" + id + ", name='" + name + "', age=" + age + ", specialization='" + specialization + "'}";
     }
 
-    // --- equals & hashCode ---
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -47,5 +43,5 @@ public class MedicalProfessional {
     public int hashCode() {
         return Objects.hash(id, name, age, specialization);
     }
-    
+
 }
