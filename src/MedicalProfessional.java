@@ -13,6 +13,7 @@ public class MedicalProfessional {
         this.specialization = specialization;
     }
 
+    // Геттеры и Сеттеры
     public int getId() { return id; }
     public String getName() { return name; }
     public int getAge() { return age; }
@@ -25,7 +26,7 @@ public class MedicalProfessional {
 
     @Override
     public String toString() {
-        return "Doctor{id=" + id + ", name='" + name + "', age=" + age + ", specialization='" + specialization + "'}";
+        return "Doctor{id=" + id + ", name='" + name + "', age=" + age + ", spec='" + specialization + "'}";
     }
 
     @Override

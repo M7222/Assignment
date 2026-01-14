@@ -8,7 +8,7 @@ public class Hospital {
     private String headDoctor;
     private String[] departments;
 
-    public Hospital(int id, String address, String headDoctor, String[] departments, String name){
+    public Hospital(int id, String address, String headDoctor, String[] departments, String name) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -16,12 +16,14 @@ public class Hospital {
         this.departments = departments;
     }
 
+    // Геттеры
     public int getId() { return id; }
     public String getName() { return name; }
     public String getAddress() { return address; }
     public String getHeadDoctor() { return headDoctor; }
     public String[] getDepartments() { return departments; }
 
+    // Сеттеры
     public void setId(int id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setAddress(String address) { this.address = address; }
@@ -39,8 +41,7 @@ public class Hospital {
         if (this == o) return true;
         if (!(o instanceof Hospital)) return false;
         Hospital h = (Hospital) o;
-        return id == h.id &&
-                Objects.equals(name, h.name) &&
+        return id == h.id && Objects.equals(name, h.name) &&
                 Objects.equals(address, h.address) &&
                 Objects.equals(headDoctor, h.headDoctor) &&
                 Arrays.equals(departments, h.departments);
