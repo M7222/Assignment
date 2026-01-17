@@ -1,54 +1,96 @@
+import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main {
-    public static void main(String[] args){
-        Data_pool db = new Data_pool();
+    public static void main(String[] args) {
+        // Инициализируем DAO для работы с БД
+        PatientDAO patientDAO = new PatientDAO();
+        MedicalProfessionalDAO doctorDAO = new MedicalProfessionalDAO();
+        HospitalDAO hospitalDAO = new HospitalDAO();
 
-        db.addPatient(new Patient(1, "Miras", "Askar", 17));
-        db.addPatient(new Patient(2, "Akylzhan", "Khafiz", 16));
-        db.addPatient(new Patient(3, "Timur", "Yukhnovec", 18));
-        db.addPatient(new Patient(4, "Adil", "Askarov", 22));
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        db.addDoctor(new MedicalProfessional(1, "Aibolit", 31, "Surgery"));
-        db.addDoctor(new MedicalProfessional(2, "Zharas", 47, "Neurology"));
+        while (running) {
+            System.out.println("\n======= СИСТЕМА УПРАВЛЕНИЯ КЛИНИКОЙ =======");
+            System.out.println("1. Пациенты (Добавить/Показать/Удалить)");
+            System.out.println("2. Доктора (Добавить/Показать/Обновить)");
+            System.out.println("3. Госпитали (Добавить/Показать)");
+            System.out.println("0. Выход");
+            System.out.print("Выберите категорию: ");
 
-        String[] dep1 = {"Surgery", "Cardiology", "Therapy"};
-        String[] dep2 = {"Neurology", "Psychology", "Urology"};
-        db.addHospital(new Hospital(1, "Kabanbay Batyr, 112", "Tolepbergen", dep1, "Alatau clinic"));
-        db.addHospital(new Hospital(2, "Wall st. 52", "Dr. Dalero", dep2, "Dallero clinic"));
+            int category = scanner.nextInt();
+            scanner.nextLine();
 
-        System.out.println("== All Patients ==");
-        for (int i = 0; i < db.getPatients().size(); i++) {
-            System.out.println(db.getPatients().get(i));
-        }
+            switch (category) {
+                case 1: // РАБОТА С ПАЦИЕНТАМИ
+                    System.out.println("1. Добавить | 2. Показать всех | 3. Удалить");
+                    int pChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    if (pChoice == 1) {
+                        System.out.print("ID: "); int id = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Имя: "); String name = scanner.nextLine();
+                        System.out.print("Фамилия: "); String sur = scanner.nextLine();
+                        System.out.print("Возраст: "); int age = scanner.nextInt();
+                        patientDAO.save(new Patient(id, name, sur, age));
+                    } else if (pChoice == 2) {
+                        for (Patient p : patientDAO.getAll()) System.out.println(p);
+                    } else if (pChoice == 3) {
+                        System.out.print("Введите ID для удаления: ");
+                        int delId = scanner.nextInt();
+                        patientDAO.delete(delId);
+                    }
+                    break;
 
-        System.out.println("\n== All Doctors ==");
-        for (int i = 0; i < db.getDoctors().size(); i++) {
-            System.out.println(db.getDoctors().get(i));
-        }
+                case 2: // РАБОТА С ДОКТОРАМИ
+                    System.out.println("1. Добавить | 2. Показать всех | 3. Обновить данные");
+                    int dChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    if (dChoice == 1) {
+                        System.out.print("ID: "); int id = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Имя: "); String name = scanner.nextLine();
+                        System.out.print("Возраст: "); int age = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Спец-ция: "); String spec = scanner.nextLine();
+                        doctorDAO.save(new MedicalProfessional(id, name, age, spec));
+                    } else if (dChoice == 2) {
+                        for (MedicalProfessional m : doctorDAO.getAll()) System.out.println(m);
+                    } else if (dChoice == 3) {
+                        System.out.print("ID врача для обновления: "); int id = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Новое имя: "); String name = scanner.nextLine();
+                        System.out.print("Новый возраст: "); int age = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Новая спец-ция: "); String spec = scanner.nextLine();
+                        doctorDAO.update(new MedicalProfessional(id, name, age, spec));
+                    }
+                    break;
 
-        System.out.println("\n== All Hospitals ==");
-        for (int i = 0; i < db.getHospitals().size(); i++) {
-            Hospital h = db.getHospitals().get(i);
-            System.out.println(h);
-            String[] deps = h.getDepartments();
-            System.out.println("Departments:");
-            for (int j = 0; j < deps.length; j++) {
-                System.out.println("- " + deps[j]);
+                case 3: // РАБОТА С ГОСПИТАЛЯМИ
+                    System.out.println("1. Добавить | 2. Показать все");
+                    int hChoice = scanner.nextInt();
+                    scanner.nextLine();
+                    if (hChoice == 1) {
+                        System.out.print("ID: "); int id = scanner.nextInt(); scanner.nextLine();
+                        System.out.print("Адрес: "); String addr = scanner.nextLine();
+                        System.out.print("Директор: "); String head = scanner.nextLine();
+                        System.out.print("Название: "); String n = scanner.nextLine();
+                        System.out.print("Департаменты (через запятую): ");
+                        String[] deps = scanner.nextLine().split(",");
+                        hospitalDAO.save(new Hospital(id, addr, head, deps, n));
+                    } else if (hChoice == 2) {
+                        for (Hospital h : hospitalDAO.getAll()) {
+                            System.out.println(h + " Департаменты: " + String.join(", ", h.getDepartments()));
+                        }
+                    }
+                    break;
+
+                case 0:
+                    running = false;
+                    System.out.println("Выход из системы...");
+                    break;
+
+                default:
+                    System.out.println("Неверный выбор!");
             }
-            System.out.println();
         }
-
-        System.out.println("== Minor Patients ==");
-        ArrayList<Patient> minors = db.getMinorPatients();
-        for (int i = 0; i < minors.size(); i++) System.out.println(minors.get(i));
-
-        System.out.println("\n== Doctors with specialization Surgery ==");
-        ArrayList<MedicalProfessional> surgeons = db.getDoctorsBySpecialization("Surgery");
-        for (int i = 0; i < surgeons.size(); i++) System.out.println(surgeons.get(i));
-
-        System.out.println("\n== Hospitals with Neurology department ==");
-        ArrayList<Hospital> neuroHospitals = db.getHospitalsByDepartment("Neurology");
-        for (int i = 0; i < neuroHospitals.size(); i++) System.out.println(neuroHospitals.get(i));
+        scanner.close();
     }
 }

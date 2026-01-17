@@ -4,14 +4,13 @@ public class Data_pool {
     private PatientDAO patientDAO = new PatientDAO();
 
     public void addPatient(Patient p) {
-        patientDAO.save(p); // Теперь данные летят в pgAdmin
+        patientDAO.save(p);
     }
 
     public ArrayList<Patient> getPatients() {
-        return patientDAO.getAll(); // Данные берутся из таблицы БД
+        return patientDAO.getAll();
     }
 
-    // Твой фильтр для несовершеннолетних
     public ArrayList<Patient> getMinorPatients() {
         ArrayList<Patient> all = getPatients();
         ArrayList<Patient> minors = new ArrayList<>();
@@ -31,7 +30,6 @@ public class Data_pool {
         return doctorDAO.getAll();
     }
 
-    // Твой фильтр из Main
     public ArrayList<MedicalProfessional> getDoctorsBySpecialization(String spec) {
         ArrayList<MedicalProfessional> result = new ArrayList<>();
         for (MedicalProfessional m : getDoctors()) {
@@ -40,30 +38,25 @@ public class Data_pool {
         return result;
     }
 
-    // 1. Добавляем экземпляр DAO для больниц
     private HospitalDAO hospitalDAO = new HospitalDAO();
 
-    // 2. Метод для добавления больницы
     public void addHospital(Hospital h) {
         hospitalDAO.save(h);
     }
 
-    // 3. Метод для получения списка всех больниц
     public ArrayList<Hospital> getHospitals() {
         return hospitalDAO.getAll();
     }
 
-    // 4. Метод фильтрации по отделениям (для Main)
     public ArrayList<Hospital> getHospitalsByDepartment(String dept) {
         ArrayList<Hospital> allHospitals = getHospitals();
         ArrayList<Hospital> result = new ArrayList<>();
 
         for (Hospital h : allHospitals) {
-            // Проверяем каждое отделение в массиве больницы
             for (String d : h.getDepartments()) {
                 if (d.equalsIgnoreCase(dept)) {
                     result.add(h);
-                    break; // Нашли нужное отделение — добавляем больницу и переходим к следующей
+                    break;
                 }
             }
         }

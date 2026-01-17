@@ -3,28 +3,25 @@ import java.util.ArrayList;
 
 public class PatientDAO {
 
-    // Шаги 1-4: Сохранение пациента в базу
     public void save(Patient p) {
-        String sql = "INSERT INTO patient (name, surname, age) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO patient (id, name, surname, age) VALUES (?, ?, ?, ?)";
 
-        // Использование try-with-resources автоматически закрывает соединение (Шаг 6)
         try (Connection conn = DatabaseContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, p.getName());
-            pstmt.setString(2, p.getSurname());
-            pstmt.setInt(3, p.getAge());
+            pstmt.setInt(1, p.getId());
+            pstmt.setString(2, p.getName());
+            pstmt.setString(3, p.getSurname());
+            pstmt.setInt(4, p.getAge());
 
             pstmt.executeUpdate();
             System.out.println("Пациент " + p.getName() + " сохранен в PostgreSQL!");
 
         } catch (SQLException e) {
-            // Обработка исключений (стр. 5 лекции)
             e.printStackTrace();
         }
     }
 
-    // Шаг 5: Получение всех пациентов из базы
     public ArrayList<Patient> getAll() {
         ArrayList<Patient> patients = new ArrayList<>();
         String sql = "SELECT * FROM patient";
@@ -34,7 +31,6 @@ public class PatientDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                // Создаем объект Patient на основе данных из строки таблицы
                 Patient p = new Patient(
                         rs.getInt("id"),
                         rs.getString("name"),
@@ -47,5 +43,44 @@ public class PatientDAO {
             e.printStackTrace();
         }
         return patients;
+    }
+
+    public void update(Patient p) {
+        String sql = "UPDATE patient SET name = ?, surname = ?, age = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseContext.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, p.getName());
+            pstmt.setString(2, p.getSurname());
+            pstmt.setInt(3, p.getAge());
+            pstmt.setInt(4, p.getId()); // ID используется в условии WHERE
+
+            int rows = pstmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Данные пациента с ID " + p.getId() + " успешно обновлены!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Ошибка при обновлении пациента: " + e.getMessage());
+        }
+    }
+
+    public void delete(int id) {
+        String sql = "DELETE FROM patient WHERE id = ?";
+
+        try (Connection conn = DatabaseContext.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            int rows = pstmt.executeUpdate();
+            if (rows > 0) {
+                System.out.println("Пациент с ID " + id + " удален из базы.");
+            } else {
+                System.out.println("Пациент с ID " + id + " не найден.");
+            }
+        } catch (SQLException e) {
+            System.err.println("Ошибка при удалении пациента: " + e.getMessage());
+        }
     }
 }

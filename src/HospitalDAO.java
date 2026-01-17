@@ -4,17 +4,16 @@ import java.util.ArrayList;
 public class HospitalDAO {
 
     public void save(Hospital h) {
-        // ИСПРАВЛЕНО: departments (было departmeents)
-        String sql = "INSERT INTO hospital (name, address, head_doctor, departments) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO hospital (id, name, address, head_doctor, departments) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseContext.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, h.getName());
-            pstmt.setString(2, h.getAddress());
-            pstmt.setString(3, h.getHeadDoctor());
+            pstmt.setInt(1, h.getId());
+            pstmt.setString(2, h.getName());
+            pstmt.setString(3, h.getAddress());
+            pstmt.setString(4, h.getHeadDoctor());
 
-            // Конвертируем массив ["A", "B"] в строку "A, B" для базы
             String deptsString = (h.getDepartments() != null) ? String.join(", ", h.getDepartments()) : "";
             pstmt.setString(4, deptsString);
 
@@ -35,7 +34,6 @@ public class HospitalDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                // Конвертируем строку "A, B" обратно в массив для Java
                 String deptsRaw = rs.getString("departments");
                 String[] deptsArray = (deptsRaw != null && !deptsRaw.isEmpty()) ? deptsRaw.split(", ") : new String[0];
 
@@ -51,5 +49,52 @@ public class HospitalDAO {
             e.printStackTrace();
         }
         return hospitals;
+    }
+
+    public void update(Hospital h) {
+        String sql = "UPDATE hospital SET name = ?, address = ?, head_doctor = ?, departments = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseContext.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, h.getName());
+            pstmt.setString(2, h.getAddress());
+            pstmt.setString(3, h.getHeadDoctor());
+
+            String deptsString = (h.getDepartments() != null) ? String.join(", ", h.getDepartments()) : "";
+            pstmt.setString(4, deptsString);
+
+            pstmt.setInt(5, h.getId());
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Данные госпиталя с ID " + h.getId() + " успешно обновлены!");
+            } else {
+                System.out.println("Госпиталь с таким ID не найден.");
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Ошибка при обновлении: " + e.getMessage());
+        }
+    }
+
+    public void delete(int id) {
+        String sql = "DELETE FROM hospital WHERE id = ?";
+
+        try (Connection conn = DatabaseContext.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                System.out.println("Госпиталь с ID " + id + " удален.");
+            } else {
+                System.out.println("Не удалось найти госпиталь с ID " + id);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Ошибка при удалении: " + e.getMessage());
+        }
     }
 }
